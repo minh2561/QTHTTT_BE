@@ -1,7 +1,7 @@
 package com.example.qthttt_be.domain.user;
 
-import com.example.qthttt_be.domain.user.model.LoginRequest;
-import com.example.qthttt_be.domain.user.model.RegisterUserRequest;
+import com.example.qthttt_be.domain.user.model.req.LoginRequest;
+import com.example.qthttt_be.domain.user.model.req.RegisterUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

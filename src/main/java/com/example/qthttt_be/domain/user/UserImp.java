@@ -4,9 +4,11 @@ import com.example.qthttt_be.Seeder.Enum.PositionEnum;
 import com.example.qthttt_be.Seeder.Enum.RoleEnum;
 import com.example.qthttt_be.auth.JwtUtility;
 import com.example.qthttt_be.domain.user.entity.UserEntity;
-import com.example.qthttt_be.domain.user.model.LoginRequest;
-import com.example.qthttt_be.domain.user.model.RegisterUserRequest;
+import com.example.qthttt_be.domain.user.model.req.LoginRequest;
+import com.example.qthttt_be.domain.user.model.req.RegisterUserRequest;
+import com.example.qthttt_be.domain.user.model.res.RegisterRes;
 import com.example.qthttt_be.respon.Respon;
+import com.example.qthttt_be.respon.ResponError;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.modelmapper.ModelMapper;
@@ -41,7 +43,7 @@ public class UserImp implements UserService {
     @Override
     public Respon register(RegisterUserRequest registerUserRequest) {
         if (userRepository.findByEmail(registerUserRequest.getEmail()) != null) {
-            return new Respon<>("Đăng kí thất bại");
+            throw new ResponError(new Respon<>("Đăng kí thất bại"));
         }
         UserEntity userEntity = modelMapper.map(registerUserRequest, UserEntity.class);
         userEntity.setPassWord(passwordEncoder.encode(registerUserRequest.getPassWord()));
@@ -58,9 +60,17 @@ public class UserImp implements UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtility.generateToken(loginRequest.getUserName());
         UserEntity userEntity = userRepository.findByUserName(loginRequest.getUserName());
-        userEntity.setToken(token);
-        userRepository.save(userEntity);
-        return new Respon<>("Đăng nhập thành công", token);
+        if (userEntity.getToken().isEmpty()) {
+            userEntity.setToken(token);
+            userRepository.save(userEntity);
+
+            RegisterRes registerRes = new RegisterRes();
+            registerRes.setToken(token);
+            return new Respon<>("Đăng nhập thành công", registerRes);
+        }
+        throw new ResponError(new Respon<>("Đăng nhập thất bại"));
+
+
     }
 
     @Override
@@ -77,9 +87,9 @@ public class UserImp implements UserService {
     public Respon getAuthor() {
         UserEntity userEntity = userRepository.findByUserName(jwtUtility.userDetails().getUsername());
         String token = jwtUtility.parseJwt(httpServletRequest);
-        if (userEntity.getToken().equals(token)){
+        if (userEntity.getToken().equals(token)) {
             return new Respon<>("Lấy dữ liệu thành công");
         }
-        return new Respon<>("Lấy dữ liệu thất bại");
+        throw new ResponError(new Respon<>("Lấy dữ liệu thất bại"));
     }
 }

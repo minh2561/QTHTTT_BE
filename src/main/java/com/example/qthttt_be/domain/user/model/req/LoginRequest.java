@@ -1,4 +1,4 @@
-package com.example.qthttt_be.domain.user.model;
+package com.example.qthttt_be.domain.user.model.req;
 
 import lombok.Getter;
 import lombok.Setter;
