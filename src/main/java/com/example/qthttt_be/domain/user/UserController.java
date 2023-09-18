@@ -5,9 +5,10 @@ import com.example.qthttt_be.domain.user.model.req.RegisterUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
     @Autowired
@@ -32,5 +33,10 @@ public class UserController {
     @PreAuthorize("hasAnyRole('USER')")
     public ResponseEntity getAuthor() {
         return ResponseEntity.ok(userService.getAuthor());
+    }
+
+    @GetMapping("/minh")
+    public ResponseEntity get() {
+        return ResponseEntity.ok(userService.getMinh());
     }
 }

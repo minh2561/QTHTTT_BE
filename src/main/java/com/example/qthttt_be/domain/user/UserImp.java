@@ -60,15 +60,15 @@ public class UserImp implements UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtUtility.generateToken(loginRequest.getUserName());
         UserEntity userEntity = userRepository.findByUserName(loginRequest.getUserName());
-        if (userEntity.getToken().isEmpty()) {
+//        if (userEntity.getToken() == null) {
             userEntity.setToken(token);
             userRepository.save(userEntity);
 
             RegisterRes registerRes = new RegisterRes();
             registerRes.setToken(token);
             return new Respon<>("Đăng nhập thành công", registerRes);
-        }
-        throw new ResponError(new Respon<>("Đăng nhập thất bại"));
+//        }
+//        throw new ResponError(new Respon<>("Đăng nhập thất bại"));
 
 
     }
@@ -91,5 +91,10 @@ public class UserImp implements UserService {
             return new Respon<>("Lấy dữ liệu thành công");
         }
         throw new ResponError(new Respon<>("Lấy dữ liệu thất bại"));
+    }
+
+    @Override
+    public Respon getMinh() {
+        return new Respon<>("chay duoc roi");
     }
 }

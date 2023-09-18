@@ -37,7 +37,8 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(
                                 "user/register",
-                                "user/login"
+                                "user/login",
+                                "user/minh"
                         )
                         .permitAll()
                         .anyRequest()
