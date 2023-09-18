@@ -14,4 +14,6 @@ public interface UserService {
     Respon logout();
 
     Respon getAuthor();
+
+    Respon getMinh();
 }
