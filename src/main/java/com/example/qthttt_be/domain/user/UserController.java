@@ -2,6 +2,7 @@ package com.example.qthttt_be.domain.user;
 
 import com.example.qthttt_be.domain.user.model.req.LoginRequest;
 import com.example.qthttt_be.domain.user.model.req.RegisterUserRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,12 +16,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterUserRequest registerUserRequest) {
+    public ResponseEntity register(@RequestBody @Valid RegisterUserRequest registerUserRequest) {
         return ResponseEntity.ok(userService.register(registerUserRequest));
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity login(@RequestBody @Valid LoginRequest loginRequest) {
         return ResponseEntity.ok(userService.login(loginRequest));
     }
 
