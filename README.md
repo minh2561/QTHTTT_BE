@@ -1,3 +1,3 @@
 # QTHTTT_BE
 USING DOCKER :
-docker compose up -d
+`docker compose up -d`
