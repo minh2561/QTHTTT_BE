@@ -12,6 +12,9 @@ import org.springframework.util.StringUtils;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author Nguyễn Tuấn Minh
+ */
 @Component
 public class JwtUtility implements Serializable {
     @Resource

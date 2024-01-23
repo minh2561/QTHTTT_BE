@@ -20,6 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Nguyễn Tuấn Minh
+ */
 @Component
 public class UserImp implements UserService {
     @Autowired

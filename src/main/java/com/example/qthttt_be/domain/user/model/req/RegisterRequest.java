@@ -5,6 +5,9 @@ import lombok.Setter;
 
 import java.sql.Date;
 
+/**
+ * @author Nguyễn Tuấn Minh
+ */
 @Getter
 @Setter
 public class RegisterRequest {

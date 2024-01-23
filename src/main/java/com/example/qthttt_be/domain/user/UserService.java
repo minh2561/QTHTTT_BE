@@ -5,6 +5,9 @@ import com.example.qthttt_be.domain.user.model.req.RegisterRequest;
 import com.example.qthttt_be.respon.Respon;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Nguyễn Tuấn Minh
+ */
 @Service
 public interface UserService {
     Respon register(RegisterRequest request);

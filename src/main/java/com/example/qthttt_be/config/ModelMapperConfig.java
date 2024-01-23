@@ -5,6 +5,9 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author Nguyễn Tuấn Minh
+ */
 @Configuration
 public class ModelMapperConfig {
     @Bean

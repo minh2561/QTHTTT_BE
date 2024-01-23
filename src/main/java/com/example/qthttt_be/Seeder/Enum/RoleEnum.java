@@ -2,6 +2,9 @@ package com.example.qthttt_be.Seeder.Enum;
 
 import lombok.Getter;
 
+/**
+ * @author Nguyễn Tuấn Minh
+ */
 public enum RoleEnum {
     USER("ROLE_USER"),
     EMPLOYEE("ROLE_EMPLOYEE"),

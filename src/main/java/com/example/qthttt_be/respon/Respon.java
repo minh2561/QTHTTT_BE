@@ -1,10 +1,12 @@
 package com.example.qthttt_be.respon;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * @author Nguyễn Tuấn Minh
+ */
 @Getter
 @Setter
 @NoArgsConstructor

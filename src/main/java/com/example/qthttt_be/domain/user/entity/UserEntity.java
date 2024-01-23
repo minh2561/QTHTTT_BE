@@ -8,6 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+/**
+ * @author Nguyễn Tuấn Minh
+ */
 @Entity
 @Getter
 @Setter
