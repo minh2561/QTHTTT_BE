@@ -1,3 +1,3 @@
 # QTHTTT_BE
-USING DOCKER :
-`docker compose up -d`
+NGUYỄN TUẤN MINH
+KHÔNG CHẠY ĐƯỢC LIÊN HỆ FACEBOOK 1K FOLLOW - ..
