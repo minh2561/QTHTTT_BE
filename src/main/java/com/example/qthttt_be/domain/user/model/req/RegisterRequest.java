@@ -7,15 +7,11 @@ import java.sql.Date;
 
 @Getter
 @Setter
-public class RegisterUserRequest {
-    private String userName;
-    private String passWord;
+public class RegisterRequest {
+    private String email;
+    private String password;
     private String name;
     private Date dateOfBirth;
     private Boolean sex;
     private String phoneNumber;
-    private String email;
-    private String address;
-    private String position;
-    private String idRole;
 }

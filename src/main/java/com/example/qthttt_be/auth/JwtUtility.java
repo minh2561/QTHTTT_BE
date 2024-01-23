@@ -21,32 +21,29 @@ public class JwtUtility implements Serializable {
     @Value("${jwt.expiresIn}")
     private String expiresIn;
 
-    public String generateToken(String userName) {
+    public String generateToken(String email) {
         Date now = new Date();
         return Jwts.builder()
-                .setSubject(userName)
+                .setSubject(email)
                 .setIssuedAt(now)
                 .setExpiration(new Date((new Date()).getTime() + Long.valueOf(expiresIn)))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
-    public boolean validateToken(String authToken) {
+    public boolean validateToken(String authToken) throws ExpiredJwtException {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
-            request.setAttribute("errorJWT", "Invalid JWT signature");
+            throw new SignatureException("Invalid JWT signature: ", ex);
         } catch (MalformedJwtException ex) {
-            request.setAttribute("errorJWT", "Invalid JWT token");
-        } catch (ExpiredJwtException ex) {
-            request.setAttribute("errorJWT", "Expired JWT token");
+            throw new MalformedJwtException("Invalid JWT token: ", ex);
         } catch (UnsupportedJwtException ex) {
-            request.setAttribute("errorJWT", "Unsupported JWT token");
+            throw new UnsupportedJwtException("Unsupported JWT token: ", ex);
         } catch (IllegalArgumentException ex) {
-            request.setAttribute("errorJWT", "JWT claims string is empty.");
+            throw new IllegalArgumentException("JWT claims string is empty: ", ex);
         }
-        return false;
     }
 
     public String parseJwt(HttpServletRequest request) {
@@ -57,11 +54,11 @@ public class JwtUtility implements Serializable {
         return null;
     }
 
-    public String getUserNameFromJwtToken(String token) {
+    public String getEmailFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public UserDetails userDetails(){
+    public UserDetails userDetails() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDetails;
     }

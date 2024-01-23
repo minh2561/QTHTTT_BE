@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.internal.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -16,7 +17,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Slf4j
 @Component
 @EnableMethodSecurity(jsr250Enabled = true)
 public class JWTFilter extends OncePerRequestFilter {
@@ -31,8 +31,8 @@ public class JWTFilter extends OncePerRequestFilter {
         try {
             String jwt = jwtUtility.parseJwt(httpServletRequest);
             if (jwt != null && jwtUtility.validateToken(jwt)) {
-                String userName = jwtUtility.getUserNameFromJwtToken(jwt);
-                UserDetails userDetails = userDetailsServiceImp.loadUserByUsername(userName);
+                String email = jwtUtility.getEmailFromJwtToken(jwt);
+                UserDetails userDetails = userDetailsServiceImp.loadUserByUsername(email);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities()
                 );
@@ -40,7 +40,7 @@ public class JWTFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            log.error("Cannot set user authentication: {}", e);
+            throw new RuntimeException("Cannot set user authentication: ", e);
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }

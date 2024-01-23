@@ -17,8 +17,8 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        UserEntity userEntity = userRepository.findByUserName(userName);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserEntity userEntity = userRepository.findByEmail(email);
         Hibernate.initialize(userEntity.getRoleEntity().getRole());
         return new MyUserPrincipal(userEntity);
     }
