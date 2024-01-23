@@ -1,7 +1,7 @@
 package com.example.qthttt_be.domain.user;
 
 import com.example.qthttt_be.domain.user.model.req.LoginRequest;
-import com.example.qthttt_be.domain.user.model.req.RegisterUserRequest;
+import com.example.qthttt_be.domain.user.model.req.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +15,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterUserRequest registerUserRequest) {
+    public ResponseEntity register(@RequestBody RegisterRequest registerUserRequest) {
         return ResponseEntity.ok(userService.register(registerUserRequest));
     }
 

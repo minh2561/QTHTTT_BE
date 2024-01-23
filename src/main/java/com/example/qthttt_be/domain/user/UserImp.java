@@ -1,11 +1,10 @@
 package com.example.qthttt_be.domain.user;
 
-import com.example.qthttt_be.Seeder.Enum.PositionEnum;
 import com.example.qthttt_be.Seeder.Enum.RoleEnum;
 import com.example.qthttt_be.auth.JwtUtility;
 import com.example.qthttt_be.domain.user.entity.UserEntity;
 import com.example.qthttt_be.domain.user.model.req.LoginRequest;
-import com.example.qthttt_be.domain.user.model.req.RegisterUserRequest;
+import com.example.qthttt_be.domain.user.model.req.RegisterRequest;
 import com.example.qthttt_be.domain.user.model.res.RegisterRes;
 import com.example.qthttt_be.respon.Respon;
 import com.example.qthttt_be.respon.ResponError;
@@ -41,14 +40,13 @@ public class UserImp implements UserService {
     private HttpServletResponse httpServletResponse;
 
     @Override
-    public Respon register(RegisterUserRequest registerUserRequest) {
+    public Respon register(RegisterRequest registerUserRequest) {
         if (userRepository.findByEmail(registerUserRequest.getEmail()) != null) {
             throw new ResponError(new Respon<>("Đăng kí thất bại"));
         }
         UserEntity userEntity = modelMapper.map(registerUserRequest, UserEntity.class);
-        userEntity.setPassWord(passwordEncoder.encode(registerUserRequest.getPassWord()));
+        userEntity.setPassword(passwordEncoder.encode(registerUserRequest.getPassword()));
         userEntity.setRoleEntity(roleRepository.findByRole(RoleEnum.USER.getRole()));
-        userEntity.setPosition(PositionEnum.USER.getPosition());
         userRepository.save(userEntity);
         return new Respon<>("Đăng kí thành công");
     }
@@ -56,10 +54,10 @@ public class UserImp implements UserService {
     @Override
     public Respon login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassWord()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtUtility.generateToken(loginRequest.getUserName());
-        UserEntity userEntity = userRepository.findByUserName(loginRequest.getUserName());
+        String token = jwtUtility.generateToken(loginRequest.getEmail());
+        UserEntity userEntity = userRepository.findByUserName(loginRequest.getEmail());
 //        if (userEntity.getToken() == null) {
             userEntity.setToken(token);
             userRepository.save(userEntity);

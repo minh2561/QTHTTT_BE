@@ -1,6 +1,5 @@
 package com.example.qthttt_be.auth;
 
-import com.example.qthttt_be.exception.CustomForbiddenEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +42,7 @@ public class SpringSecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated()
-                ).exceptionHandling(exception -> exception.authenticationEntryPoint(new CustomForbiddenEntryPoint()))
+                )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
